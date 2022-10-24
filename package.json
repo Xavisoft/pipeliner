@@ -1,0 +1,35 @@
+{
+  "name": "@xavisoft/pipeliner",
+  "version": "0.1.0",
+  "description": "This package listens to Github webhooks and execute CI/CD workflow tasks",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui tdd --exit --watch tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xavisoft/pipeliner.git"
+  },
+  "keywords": [
+    "continuous-delivery",
+    "continuous-integration"
+  ],
+  "author": "Xavier Mukodi <xaviermukodi@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xavisoft/pipeliner/issues"
+  },
+  "homepage": "https://github.com/Xavisoft/pipeliner#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "casual": "^1.6.2",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "dotenv": "^16.0.3",
+    "find-free-ports": "^3.0.0",
+    "mocha": "^10.1.0"
+  }
+}
