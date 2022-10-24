@@ -1,7 +1,7 @@
 
 # pipeliner
 
-This package helps you to create a CI/CD workflow using GitHub webhook events. You can provide scripts that will be executed when a certain events happens, or add event listeners to respond to the events right in the your app. Unlike GitHub actions where you're limited to ```2000 CI/CD minutes/per month```, webhooks are not limited. This package can also be extended if the events available are not adequate for your workflow.
+This package helps you to create a CI/CD workflow using GitHub webhook events. You can provide scripts that will be executed when certain events happen, or add event listeners to respond to the events right in the your app. Unlike GitHub actions where you're limited to ```2000 CI/CD minutes per month```, webhooks are not limited. This package can also be extended if the events available are not adequate for your workflow.
 
 ## Installation
 ```
@@ -43,21 +43,24 @@ pipeliner.on('push', data) {
 ```
 
 ### Using scripts
-You can write Bash or JS scripts that will be run on specific events. A script will saved at 
-```{scriptsPath}/{organization}/{repository}/{eventName}.js```
-OR
-```{scriptsPath}/{organization}/{repository}/{eventName}.sh```
-will be ran when a certain event happens.
-For example you can achieve what we did above by creating the bash script belows 
+You can write Bash or JS scripts that runs on specific events. A script saved at 
+```path/to/scripts/git-organization/repository/eventName.js```  
+OR  
+```path/to/scripts/git-organization/repository/eventName.sh```  
+will run when a certain event happens.
+For example we can achieve the above by creating the bash script below:
 ```bash
-# Saved at /path/to/project/pipeline_scripts/${organization}/{repository}/push.sh
+
+# Saved at /path/to/project/pipeline_scripts/organization/repository/push.sh
+
 git pull
 npm install
-pm2 restart {repository}
+pm2 restart {repository} # restaring the app
+
 ```
 
 ### Notifications
-After every script ran, the results will be passed to ```pipeliner.notify()```. So tou can override the function as below to send yourself notifications
+After every script runs, the results will be passed to ```pipeliner.notify()```. Override the function as below to send yourself notifications:
 ```javascript
 
 class MyPipeliner extends Pipeliner {
@@ -71,7 +74,7 @@ pipeliner.init();
 ```
 
 ### Extensibility
-The list of events emitted by the package may not be enough for your workflow. That's why we included the event ```webhook```. It will emit all the headers and bosy of the request, so you can process the event as you see fit. This event is always emitted.
+The list of events emitted by the package may not be enough for your workflow. That's why we included the event ```webhook```. The event webhook is included to enable you to extend the list of events emitted by this package. It will emit all the headers and body of the request, so you can process the event as you see fit. This event is always emitted.
 
 ```javascript
 pipeliner.on('webhook', payload => {
@@ -149,7 +152,7 @@ To be overidden. It will be called when a script is finished with the output fro
 
 | Param | Type | Description |
 | --- | --- | --- |
-| hasErred | <code>boolean</code> | indicates whether the command was run successfully |
+| hasErred | <code>boolean</code> | indicates whether the command  ran successfully |
 | err | <code>Error</code> | The error that occured. null if hasErred is false |
 | output | <code>string</code> | both stdout and stderr logs |
 | stdout | <code>string</code> | stdout log |
