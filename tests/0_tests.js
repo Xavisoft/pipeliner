@@ -149,6 +149,7 @@ suite("Tests", function() {
       const pipeliner = new Pipeliner({
          expressApp,
          endpointPath,
+         hmacSecret
       });
 
       await pipeliner.init();
