@@ -104,7 +104,7 @@ const pipeliner = new Pipeliner(options);
 ```
 
 ### Adding your pipeliner an existing express app
-If you pass ```port``` to the Pipeliner constructor, a new express is going to be created when you call ```pipeliner.init()```. If you have an already existing express app, you can mount pipeliner on the same app
+If you pass ```port``` to the Pipeliner constructor, a new express is going to be created when you call ```pipeliner.init()```. If you have an already existing express app, you can mount pipeliner on the same app:
 ```javascript
 
 const expressApp = app;
@@ -116,6 +116,8 @@ const pipeliner = new Pipeliner({
    scriptsPath: __dirname + '/pipeliner_scripts'
 });
 ```
+
+**NB**: Make sure your express app supports the ```Content-Type``` you will have selected on your Github Webhook setup.
 
 <a name="Pipeliner"></a>
 

@@ -287,6 +287,7 @@ class Pipeliner extends EventEmitter {
          // create an express app and listen on the provided port
          this._expressApp = express();
          this._expressApp.use(express.json());
+         this._expressApp.use(express.urlencoded({ extended: true }));
          
          await (() => {
             return new Promise(resolve => {  
@@ -294,10 +295,10 @@ class Pipeliner extends EventEmitter {
             });
          })();
 
-         this._usingExpernalExpressApp = false;
+         this._usingExternalExpressApp = false;
 
       } else {
-         this._usingExpernalExpressApp = true;
+         this._usingExternalExpressApp = true;
       }
 
       // attach enndpoint handler to the route
@@ -316,7 +317,7 @@ class Pipeliner extends EventEmitter {
       if (!this._initialized)
          return;
       
-      if (this._usingExpernalExpressApp)
+      if (this._usingExternalExpressApp)
          throw new Error('The server express app was not created inside Pipeliner');
 
       return new Promise(resolve => {
