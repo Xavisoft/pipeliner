@@ -203,7 +203,7 @@ class Pipeliner extends EventEmitter {
 
       if (bashScriptExists) {
 
-         const response = await this._runCommand(bashScriptPath);
+         const response = await this._runCommand('bash', [ bashScriptPath ]);
          const { hasErred, err, output, stdout, stderr } = response;
 
          try {
