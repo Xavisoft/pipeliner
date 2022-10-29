@@ -5,8 +5,17 @@ This package helps you to create a CI/CD workflow using GitHub webhook events. Y
 
 ## Installation
 ```
-npm i @xavisoft/pipeliner
+npm install @xavisoft/pipeliner
 ```
+
+## Github webhook setup
+Check out [this link](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks) for steps on how to set up the webhooks for your GitHub organization/repository. 
+
+### N.B
+1. You can set up webhooks for each repository, or for the whole organization, and this tool will handle all repositories in that organization.
+2. You can integrate more that one webhook on one ```Pipeliner``` instance.
+3. The ```Secret``` field is required for this to work. It should match the ```hmacSecret``` parameter used to create the ```Pipeliner``` instance.
+
 
 ## Usage
 ### Using event listeners
