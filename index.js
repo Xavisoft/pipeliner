@@ -236,12 +236,12 @@ class Pipeliner extends EventEmitter {
       if (!signature) {
          valid = false;
       } else {
-
-         valid = this._isSignatureValid(signature, body);
          
          if (signature.indexOf('sha256=') === 0) {
             signature = signature.substring("sha256=".length);
          }
+
+         valid = this._isSignatureValid(signature, body);
       }
       
       if (!valid) {
