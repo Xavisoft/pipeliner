@@ -62,6 +62,8 @@ function processWebhookPayload(payload) {
 
    if (body.organization) {
       organization = body.organization.login;
+   } else {
+      organization = body.repository.full_name.split('/')[0];
    }
 
    return {
