@@ -1,6 +1,6 @@
 {
   "name": "@xavisoft/pipeliner",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "This package listens to Github webhooks and execute CI/CD workflow tasks",
   "main": "index.js",
   "scripts": {
