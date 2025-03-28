@@ -38,6 +38,12 @@ class Pipeliner extends EventEmitter {
       }
    }
 
+   /**
+    * 
+    * @param {string} cmd 
+    * @param {string[]} args 
+    * @returns {Promise<{ hasErred: boolean, err: Error, output: string, stdout: string, stderr: string, exitCode: number }>}
+    */
    _runCommand(cmd, args=[]) {
       return new Promise(resolve => {
 
@@ -69,13 +75,14 @@ class Pipeliner extends EventEmitter {
          });
 
 
-         spawned.on('close', () => {
+         spawned.on('close', (exitCode) => {
             resolve({
                hasErred,
                err,
                output,
                stdout,
                stderr,
+               exitCode
             });
          });
 
@@ -204,20 +211,20 @@ class Pipeliner extends EventEmitter {
       if (bashScriptExists) {
 
          const response = await this._runCommand('bash', [ bashScriptPath ]);
-         const { hasErred, err, output, stdout, stderr } = response;
+         const { hasErred, err, output, stdout, stderr, exitCode } = response;
 
          try {
-            await this.notify(hasErred, err, output, stdout, stderr);
+            await this.notify(hasErred, err, output, stdout, stderr, exitCode);
          } catch {};
       }
 
       if (nodeScriptExists) {
 
          const response = await this._runCommand('node', [ nodeScriptPath ]);
-         const { hasErred, err, output, stdout, stderr } = response;
+         const { hasErred, err, output, stdout, stderr, exitCode } = response;
          
          try {
-            await this.notify(hasErred, err, output, stdout, stderr);
+            await this.notify(hasErred, err, output, stdout, stderr, exitCode);
          } catch {};
       }
 
@@ -270,8 +277,9 @@ class Pipeliner extends EventEmitter {
     * @param {string} output both stdout and stderr logs
     * @param {string} stdout stdout log
     * @param {string} stderr stderr log
+    * @param {number} exitCode The exit code of the command
     */
-   async notify(hasErred, err, output, stdout, stderr) {
+   async notify(hasErred, err, output, stdout, stderr, exitCode) {
       
    }
 

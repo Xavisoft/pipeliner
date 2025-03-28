@@ -6,14 +6,16 @@ console.clear();
 const { v4: uuid } = require('uuid');
 const Pipeliner = require('..');
 const chai = require('chai');
-const { assert } = require('chai');
+const { assert, expect } = require('chai');
 const chaiHttp = require('chai-http');
 const { generateWebhookPayload, generateXHubSignature } = require('./utils');
 const fs = require('fs').promises;
 const freePorts = require('find-free-ports');
 const express = require('express');
+const chaiSpies = require('chai-spies');
 
 chai.use(chaiHttp);
+chai.use(chaiSpies);
  
 
 function setHeadersToRequest(req, headers={}) {
@@ -131,7 +133,6 @@ suite("Tests", function() {
 
    });
 
-
    test('Pipeliner should also work with a passed express app', async () => {
 
       const [ port ] = await freePorts.findFreePorts(1);
@@ -172,9 +173,32 @@ suite("Tests", function() {
 
    });
 
+   test("Pipeliner should call notify() when a script is executed", async () => {
 
+
+      // setup spies
+      chai.spy.restore();
+      chai.spy.on(pipeliner, 'notify', () => {});
+
+      // send request
+      const { headers, body } = generateWebhookPayload('tag');
+      headers['X-Hub-Signature-256'] = generateXHubSignature(hmacSecret, body);
+
+      const req = requester.post('/webhook');
+      const res = await setHeadersToRequest(req, headers)
+         .send(body);
+      
+      assert.equal(res.status, 200);
+
+      await delay(500); // waiting for script to finish
+
+      // check if notify was called
+      expect(pipeliner.notify).to.have.been.called(1).with(false, null, '', '', '', 0);
+      
+   });
 
    this.afterAll(async () => {
       await pipeliner.stop();
-   })
+   });
+   
 });
